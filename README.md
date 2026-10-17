@@ -6,7 +6,7 @@ Sports-betting ad mid-inning? Pill ad with the side effects? Horror trailer duri
 
 I built this because live sports are full of ads I don't want my kids to see. Streaming apps splice live-sport ads right into the video, so ad blockers can't touch them and paying for "no ads" doesn't remove them. This app doesn't try to block anything. It just gives you a one-press way to cover the screen.
 
-**Website:** https://stormr-doteth.github.io/not-in-front-of-the-kids/
+**Website:** https://notinfrontofthekids.com/
 
 <p align="center">
   <img src="docs/cover.png" width="640" alt="The cover screen: a big clock, 'Commercial break', and a timer showing how long the break has run">
