@@ -3,3 +3,4 @@ build/
 *.jks
 *.apk
 .DS_Store
+.claude/

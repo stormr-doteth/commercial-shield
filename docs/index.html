@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Commercial Shield: hide TV commercials with one button</title>
+<meta name="description" content="One button on your TV remote covers the screen and mutes the sound during commercials. Free, open source, for Google TV, Android TV and Fire TV.">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://stormr-doteth.github.io/commercial-shield/">
+<meta property="og:title" content="Commercial Shield: hide TV commercials with one button">
+<meta property="og:description" content="Press one remote button when an ad comes on: screen covered, sound off. Press again, you're back. Free for Google TV, Android TV & Fire TV.">
+<meta property="og:image" content="https://stormr-doteth.github.io/commercial-shield/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Commercial Shield: hide TV commercials with one button">
+<meta name="twitter:description" content="Press one remote button when an ad comes on: screen covered, sound off. Free for Google TV, Android TV & Fire TV.">
+<meta name="twitter:image" content="https://stormr-doteth.github.io/commercial-shield/cover.png">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 108 108'%3E%3Crect width='108' height='108' rx='22' fill='%231E3A5F'/%3E%3Cpath fill='%23F4B942' d='M54 18 82 28v24c0 18-12 31-28 38-16-7-28-20-28-38V28Z'/%3E%3Cpath fill='%231E3A5F' d='M38 42h32v22H38z'/%3E%3Cpath stroke='%23F4B942' stroke-width='3' stroke-linecap='round' d='m44 47 20 12m0-12-20 12'/%3E%3C/svg%3E">
+
+<style>
+  :root {
+    --bg: #f7f5f0;
+    --surface: #ffffff;
+    --ink: #14213d;
+    --muted: #5b6475;
+    --line: #e4e0d6;
+    --accent: #1e3a5f;
+    --gold: #e0a526;
+    --gold-soft: #fbf1d9;
+    --code-bg: #14213d;
+    --code-ink: #f4b942;
+    --ok: #2f7d4f;
+    --no: #a33a3a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0b132b;
+      --surface: #13203f;
+      --ink: #eef1f7;
+      --muted: #a9b3c7;
+      --line: #24345a;
+      --accent: #f4b942;
+      --gold: #f4b942;
+      --gold-soft: #2a2f3c;
+      --code-bg: #f4b942;
+      --code-ink: #0b132b;
+      --ok: #6fcf97;
+      --no: #f08a8a;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0b132b; --surface: #13203f; --ink: #eef1f7; --muted: #a9b3c7; --line: #24345a;
+    --accent: #f4b942; --gold: #f4b942; --gold-soft: #2a2f3c; --code-bg: #f4b942; --code-ink: #0b132b;
+    --ok: #6fcf97; --no: #f08a8a;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 16px; }
+  a { color: var(--accent); }
+  h1, h2, h3 { line-height: 1.2; margin: 0; }
+
+  header { padding: 48px 0 24px; text-align: center; }
+  .badge { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600;
+    color: var(--muted); letter-spacing: .02em; }
+  .badge svg { width: 28px; height: 28px; }
+  h1 { font-size: clamp(34px, 7vw, 54px); margin: 14px 0 12px; letter-spacing: -.02em; }
+  .lede { font-size: clamp(18px, 3.2vw, 21px); color: var(--muted); margin: 0 auto; max-width: 560px; }
+  .cta { display: inline-block; margin-top: 24px; background: var(--ink); color: var(--bg);
+    text-decoration: none; font-weight: 700; padding: 14px 26px; border-radius: 999px; }
+  .cta:focus-visible, a:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+  .sub { font-size: 14px; color: var(--muted); margin-top: 10px; }
+
+  figure { margin: 32px 0 8px; }
+  figure img { width: 100%; height: auto; display: block; border-radius: 14px;
+    box-shadow: 0 18px 40px -18px rgba(0,0,0,.45); }
+  figcaption { font-size: 14px; color: var(--muted); text-align: center; margin-top: 10px; }
+
+  section { padding: 40px 0 8px; }
+  h2 { font-size: clamp(26px, 5vw, 32px); margin-bottom: 14px; letter-spacing: -.01em; }
+  p { margin: 0 0 14px; }
+
+  .why { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 22px; }
+  .why p:last-child { margin: 0; }
+
+  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin-top: 8px; }
+  .feature { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px; }
+  .feature b { display: block; margin-bottom: 4px; }
+  .feature span { color: var(--muted); font-size: 15px; }
+
+  .codebox { text-align: center; background: var(--gold-soft); border: 2px solid var(--gold);
+    border-radius: 18px; padding: 22px 16px; margin: 8px 0 24px; }
+  .codebox .label { font-weight: 700; font-size: 15px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+  .codebox .code { display: inline-block; margin: 10px 0 6px; font: 800 clamp(40px, 11vw, 64px)/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    letter-spacing: .06em; background: var(--code-bg); color: var(--code-ink); padding: 12px 20px; border-radius: 12px; }
+  .codebox .hint { font-size: 14px; color: var(--muted); margin: 0; }
+
+  ol.steps { list-style: none; counter-reset: s; padding: 0; margin: 0; }
+  ol.steps > li { counter-increment: s; position: relative; padding: 0 0 22px 52px; }
+  ol.steps > li::before { content: counter(s); position: absolute; left: 0; top: -2px; width: 36px; height: 36px;
+    border-radius: 50%; background: var(--ink); color: var(--bg); font-weight: 800; display: grid; place-items: center; }
+  ol.steps h3 { font-size: 19px; margin-bottom: 6px; }
+  .path { display: inline; font-weight: 600; background: var(--surface); border: 1px solid var(--line);
+    padding: 1px 7px; border-radius: 6px; font-size: 15px; white-space: normal; }
+  .device { font-size: 15px; color: var(--muted); margin: 6px 0 0; }
+  .device b { color: var(--ink); }
+
+  .note { border-left: 4px solid var(--gold); background: var(--surface); padding: 12px 14px; border-radius: 0 10px 10px 0;
+    font-size: 15px; color: var(--muted); margin: 6px 0 0; }
+  .note b { color: var(--ink); }
+
+  table { width: 100%; border-collapse: collapse; background: var(--surface); border-radius: 12px; overflow: hidden;
+    border: 1px solid var(--line); font-size: 15px; }
+  th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tr:last-child td { border-bottom: 0; }
+  .yes { color: var(--ok); font-weight: 700; white-space: nowrap; }
+  .maybe { color: var(--muted); font-weight: 700; white-space: nowrap; }
+  .no { color: var(--no); font-weight: 700; white-space: nowrap; }
+
+  ul.plain { padding-left: 20px; margin: 0; }
+  ul.plain li { margin-bottom: 8px; }
+
+  details { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; }
+  summary { font-weight: 700; cursor: pointer; }
+  details p { margin: 10px 0 0; color: var(--muted); }
+
+  footer { padding: 40px 0 56px; text-align: center; color: var(--muted); font-size: 14px; }
+  footer a { color: var(--muted); }
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <div class="badge">
+    <svg viewBox="0 0 108 108" aria-hidden="true"><rect width="108" height="108" rx="22" fill="#1E3A5F"/><path fill="#F4B942" d="M54 18 82 28v24c0 18-12 31-28 38-16-7-28-20-28-38V28Z"/><path fill="#1E3A5F" d="M38 42h32v22H38z"/><path stroke="#F4B942" stroke-width="3" stroke-linecap="round" d="m44 47 20 12m0-12-20 12"/></svg>
+    COMMERCIAL SHIELD
+  </div>
+  <h1>Hide TV commercials with one button.</h1>
+  <p class="lede">Press a button on your remote when an ad comes on: the screen is covered and the sound goes off. Press it again when the game's back.</p>
+  <a class="cta" href="#install">Install it free (5 minutes)</a>
+  <p class="sub">For Google TV, Android TV and Fire TV · No account · Open source</p>
+
+  <figure>
+    <img src="cover.png" width="960" height="540" alt="A TV showing the Commercial Shield cover: a large clock, the words 'Commercial break', and a timer.">
+    <figcaption>What your family sees instead of the ad.</figcaption>
+  </figure>
+</header>
+
+<main class="wrap">
+
+  <section>
+    <div class="why">
+      <h2>Why I made this</h2>
+      <p>My kids kept seeing horror-movie trailers in the middle of baseball games. Ad blockers can't stop these, because streaming apps stitch the ads straight into the video. Paying for "no ads" doesn't remove them during live sports either.</p>
+      <p>So instead of trying to block the ads, Commercial Shield gives you a one-press way to cover them up.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>What it does</h2>
+    <div class="features">
+      <div class="feature"><b>🎯 One button</b><span>You pick any spare remote button, like an app shortcut you never use.</span></div>
+      <div class="feature"><b>🙈 Works in every app</b><span>Max, Peacock, YouTube TV, ESPN, Fox, Hulu Live, Sling, live TV…</span></div>
+      <div class="feature"><b>🔇 Mutes the sound</b><span>Then brings it back when you return.</span></div>
+      <div class="feature"><b>⏱️ Break timer</b><span>So you can guess when the game's back. Usually about 2 minutes.</span></div>
+      <div class="feature"><b>🔙 Can't get stuck</b><span>Back closes it too, and it lifts itself after 5 minutes.</span></div>
+      <div class="feature"><b>🔒 Private</b><span>No internet access, can't see your screen, nothing to sign up for.</span></div>
+    </div>
+  </section>
+
+  <section id="works">
+    <h2>Will it work on my TV?</h2>
+    <p>It works on TVs and streaming sticks that run <b>Google TV, Android TV or Fire TV</b>. A quick way to tell: if your home screen says "Google TV" or your remote has a Google Assistant or Alexa button, you're probably good.</p>
+    <table>
+      <tr><th>Device</th><th>Status</th></tr>
+      <tr><td>Hisense Google TV</td><td class="yes">✓ Tested</td></tr>
+      <tr><td>Sony, TCL, Philips &amp; other Google TV / Android TV sets</td><td class="maybe">Should work</td></tr>
+      <tr><td>Chromecast with Google TV, onn 4K, NVIDIA Shield</td><td class="maybe">Should work</td></tr>
+      <tr><td>Amazon Fire TV sticks &amp; Fire TV TVs</td><td class="maybe">Should work</td></tr>
+      <tr><td>Roku, Samsung, LG, Apple TV, Vizio</td><td class="no">✗ Not possible</td></tr>
+    </table>
+  </section>
+
+  <section id="install">
+    <h2>Install it (no computer needed)</h2>
+    <p>Everything happens on your TV with the remote.</p>
+
+    <div class="codebox">
+      <div class="label">Your Downloader code</div>
+      <div class="code">4540772</div>
+      <p class="hint">You'll type this in step 3.</p>
+    </div>
+
+    <ol class="steps">
+      <li>
+        <h3>Get the free "Downloader" app</h3>
+        <p>On your TV, open the app store, search for <b>Downloader</b> (orange icon, by AFTVnews) and install it.</p>
+      </li>
+      <li>
+        <h3>Let Downloader install apps</h3>
+        <p class="device"><b>Google TV / Android TV:</b> <span class="path">Settings → Apps → Security &amp; restrictions → Unknown sources</span> → turn on <b>Downloader</b>.</p>
+        <p class="device"><b>Fire TV:</b> <span class="path">Settings → My Fire TV → Developer options → Install unknown apps</span> → turn on <b>Downloader</b>.</p>
+        <p class="note">Don't see <b>Developer options</b> on Fire TV? Go to <span class="path">Settings → My Fire TV → About</span> and press OK on your device name 7 times, then go back.</p>
+      </li>
+      <li>
+        <h3>Type the code</h3>
+        <p>Open Downloader, select the address box, type <b>4540772</b> and press <b>Go</b>. When it finishes downloading, choose <b>Install</b>, then <b>Open</b>.</p>
+      </li>
+      <li>
+        <h3>Turn it on</h3>
+        <p>In Commercial Shield, choose <b>Accessibility service</b>. Your TV's settings open: find <b>Commercial Shield</b>, switch it <b>On</b>, then press Back.</p>
+        <p class="note"><b>See a "Restricted setting" message?</b> Go to <span class="path">Settings → Apps → Commercial Shield</span>, choose <b>Allow restricted settings</b> (it may be under ⋮ or near the bottom), then try again.</p>
+      </li>
+      <li>
+        <h3>Pick your button</h3>
+        <p>Choose <b>Shield button</b>, then press the remote button you want to use. That's it.</p>
+        <p class="device">Good picks: an app button you never use (YouTube, Prime, Disney+…) or a color button. If your pick also opens its app, choose a different one.</p>
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Using it</h2>
+    <ul class="plain">
+      <li><b>Ad comes on:</b> press your button. Screen covered, sound off.</li>
+      <li><b>Game's back:</b> press it again, or press Back.</li>
+      <li><b>Forgot?</b> It lifts itself after 5 minutes. You can change that in the app.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Questions</h2>
+    <details>
+      <summary>Is it safe? Why does it need "accessibility"?</summary>
+      <p>Accessibility is the Android permission that lets an app notice remote button presses. Commercial Shield only listens for the one button you pick. It has no internet permission at all, so it can't send anything anywhere, and it's set up so it can't read your screen. All the code is public on GitHub, and every download is built and signed in public.</p>
+    </details>
+    <details>
+      <summary>Does it block or skip ads?</summary>
+      <p>No. The ad still plays underneath; your screen is just covered while it does. It's like pressing mute and throwing a blanket over the TV.</p>
+    </details>
+    <details>
+      <summary>I can still hear the ad.</summary>
+      <p>Some soundbars connected by HDMI ARC or optical control their own volume, so the TV's mute doesn't reach them. Use your soundbar's mute too.</p>
+    </details>
+    <details>
+      <summary>Pressing my button does nothing.</summary>
+      <p>Open Commercial Shield and check the service still says "On ✓". Some remote buttons are handled by the TV's hardware and Android never sees them. If the app doesn't react when you pick the button, try a different one.</p>
+    </details>
+    <details>
+      <summary>How do I remove it?</summary>
+      <p>Settings → Apps → Commercial Shield → Uninstall. Nothing is left behind.</p>
+    </details>
+    <details>
+      <summary>Can it detect commercials automatically?</summary>
+      <p>Not reliably. Streaming apps protect their video so other apps can't see it, and the ads are stitched right into the stream. One button you control is the honest version that works everywhere.</p>
+    </details>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <p>Free &amp; open source (MIT) · <a href="https://github.com/stormr-doteth/commercial-shield">Code, docs &amp; a computer install option on GitHub</a></p>
+  <p>Not affiliated with any TV maker, streaming service or sports league.</p>
+</footer>
+
+</body>
+</html>
