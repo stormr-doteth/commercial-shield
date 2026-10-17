@@ -1,4 +1,4 @@
-package io.github.stormrdoteth.commercialshield;
+package io.github.stormrdoteth.notinfrontofthekids;
 
 import android.accessibilityservice.AccessibilityService;
 import android.content.Context;

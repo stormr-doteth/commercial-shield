@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Builds build/commercial-shield.apk with the plain Android SDK tools (no Gradle).
+# Builds build/not-in-front-of-the-kids.apk with the plain Android SDK tools (no Gradle).
 #
 # Needs: JDK 17+, Android SDK with "platforms;android-31" and "build-tools;34.0.0".
 #
@@ -40,11 +40,11 @@ echo "• Signing"
 if [ -z "${KEYSTORE:-}" ]; then
   KEYSTORE=debug.keystore KEYSTORE_PASS=android KEY_ALIAS=debug KEY_PASS=android
   [ -f "$KEYSTORE" ] || keytool -genkeypair -keystore "$KEYSTORE" -storepass android -keypass android \
-    -alias debug -dname "CN=Commercial Shield debug" -keyalg RSA -keysize 2048 -validity 10000 >/dev/null
+    -alias debug -dname "CN=Not in Front of the Kids debug" -keyalg RSA -keysize 2048 -validity 10000 >/dev/null
 fi
 "$BT/apksigner" sign --ks "$KEYSTORE" --ks-pass "pass:$KEYSTORE_PASS" \
   --ks-key-alias "$KEY_ALIAS" --key-pass "pass:${KEY_PASS:-$KEYSTORE_PASS}" \
-  --out build/commercial-shield.apk build/aligned.apk
+  --out build/not-in-front-of-the-kids.apk build/aligned.apk
 
-echo "✓ build/commercial-shield.apk"
-shasum -a 256 build/commercial-shield.apk 2>/dev/null || sha256sum build/commercial-shield.apk
+echo "✓ build/not-in-front-of-the-kids.apk"
+shasum -a 256 build/not-in-front-of-the-kids.apk 2>/dev/null || sha256sum build/not-in-front-of-the-kids.apk

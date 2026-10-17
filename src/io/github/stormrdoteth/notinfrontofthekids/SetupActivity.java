@@ -1,4 +1,4 @@
-package io.github.stormrdoteth.commercialshield;
+package io.github.stormrdoteth.notinfrontofthekids;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -74,7 +74,7 @@ public class SetupActivity extends Activity implements SharedPreferences.OnShare
         });
 
         TextView privacy = new TextView(this);
-        privacy.setText("Commercial Shield has no internet access and can't see what's on screen. "
+        privacy.setText("Not in Front of the Kids has no internet access and can't see what's on screen. "
                 + "It only listens for the one button you pick.");
         privacy.setTextColor(0x99FFFFFF);
         privacy.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
@@ -158,7 +158,7 @@ public class SetupActivity extends Activity implements SharedPreferences.OnShare
         boolean learning = Prefs.learning(this);
 
         if (!on) {
-            status.setText("Step 1: turn on Commercial Shield in Accessibility settings.");
+            status.setText("Step 1: turn on Not in Front of the Kids in Accessibility settings.");
         } else if (learning) {
             status.setText("Press the remote button you want to use as the shield button…");
         } else if (key < 0) {

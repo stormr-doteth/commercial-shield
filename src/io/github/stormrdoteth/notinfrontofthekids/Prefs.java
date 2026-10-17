@@ -1,4 +1,4 @@
-package io.github.stormrdoteth.commercialshield;
+package io.github.stormrdoteth.notinfrontofthekids;
 
 import android.content.Context;
 import android.content.SharedPreferences;

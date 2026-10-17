@@ -1,10 +1,12 @@
-# 🛡️ Commercial Shield
+# 🙈 Not in Front of the Kids
 
 **One button on your TV remote hides the commercials.**
 
-Press it when an ad comes on: the screen is covered and the sound goes off. Press it again when the show is back.
+Sports-betting ad mid-inning? Pill ad with the side effects? Horror trailer during the ballgame? Press your button: the screen is covered and the sound goes off. Press it again when the game's back.
 
-I built this because live sports are full of ads I don't want my kids to see, like horror-movie trailers in the middle of a baseball game. Streaming apps splice live-sport ads right into the video, so ad blockers can't touch them and paying for "no ads" doesn't remove them. Commercial Shield doesn't try to block anything. It just gives you a one-press way to cover the screen.
+I built this because live sports are full of ads I don't want my kids to see. Streaming apps splice live-sport ads right into the video, so ad blockers can't touch them and paying for "no ads" doesn't remove them. This app doesn't try to block anything. It just gives you a one-press way to cover the screen.
+
+**Website:** https://stormr-doteth.github.io/not-in-front-of-the-kids/
 
 <p align="center">
   <img src="docs/cover.png" width="640" alt="The cover screen: a big clock, 'Commercial break', and a timer showing how long the break has run">
@@ -38,7 +40,7 @@ I built this because live sports are full of ads I don't want my kids to see, li
 
 ## Will it work on my TV?
 
-Commercial Shield is an Android app, so it needs a TV or streaming box running **Android TV, Google TV or Fire TV**.
+Not in Front of the Kids is an Android app, so it needs a TV or streaming box running **Android TV, Google TV or Fire TV**.
 
 | Device | Status |
 |---|---|
@@ -74,13 +76,13 @@ Then go back one level, open **Developer options**, and turn on **USB debugging*
 - Windows: `winget install Google.PlatformTools`
 - Linux: `sudo apt install adb`
 
-**4. Download and install Commercial Shield:**
+**4. Download and install Not in Front of the Kids:**
 
 ```bash
-git clone https://github.com/stormr-doteth/commercial-shield.git
-cd commercial-shield
-curl -L -o commercial-shield.apk https://github.com/stormr-doteth/commercial-shield/releases/latest/download/commercial-shield.apk
-./install.sh 192.168.1.42 commercial-shield.apk
+git clone https://github.com/stormr-doteth/not-in-front-of-the-kids.git
+cd not-in-front-of-the-kids
+curl -L -o not-in-front-of-the-kids.apk https://github.com/stormr-doteth/not-in-front-of-the-kids/releases/latest/download/not-in-front-of-the-kids.apk
+./install.sh 192.168.1.42 not-in-front-of-the-kids.apk
 ```
 
 A box will appear on the TV asking **"Allow USB debugging?"** Tick *Always allow from this computer* and choose **Allow**.
@@ -92,8 +94,8 @@ The script installs the app, turns on its accessibility service, and opens the s
 
 ```bash
 adb connect 192.168.1.42:5555
-adb install -r commercial-shield.apk
-adb shell appops set io.github.stormrdoteth.commercialshield ACCESS_RESTRICTED_SETTINGS allow
+adb install -r not-in-front-of-the-kids.apk
+adb shell appops set io.github.stormrdoteth.notinfrontofthekids ACCESS_RESTRICTED_SETTINGS allow
 ```
 Then turn the service on from the TV, as in [Set it up on the TV](#set-it-up-on-the-tv) step 1.
 
@@ -111,7 +113,7 @@ Then turn the service on from the TV, as in [Set it up on the TV](#set-it-up-on-
 3. Open Downloader and type this link:
 
    ```
-   https://github.com/stormr-doteth/commercial-shield/releases/latest/download/commercial-shield.apk
+   https://github.com/stormr-doteth/not-in-front-of-the-kids/releases/latest/download/not-in-front-of-the-kids.apk
    ```
 
    It always points to the newest version.
@@ -122,7 +124,7 @@ Then turn the service on from the TV, as in [Set it up on the TV](#set-it-up-on-
 
 ## Set it up on the TV
 
-Open **Commercial Shield** from your apps. It's a single screen you drive with the remote:
+Open **Not in Front of the Kids** from your apps. It's a single screen you drive with the remote:
 
 <p align="center">
   <img src="docs/setup.png" width="640" alt="Setup screen with options for the accessibility service, shield button, auto-lift time, mute and cover style">
@@ -130,9 +132,9 @@ Open **Commercial Shield** from your apps. It's a single screen you drive with t
 
 **1. Turn on the service** (skip if you used `install.sh`; it already shows **On ✓**)
 
-Choose **Accessibility service**. This opens the TV's Accessibility settings. Find **Commercial Shield**, turn it **On**, and confirm. Then press Back to return.
+Choose **Accessibility service**. This opens the TV's Accessibility settings. Find **Not in Front of the Kids**, turn it **On**, and confirm. Then press Back to return.
 
-> **"Restricted setting" message on Android 13+?** Android blocks accessibility for apps that didn't come from the Play Store until you allow it. Go to Settings → **Apps** → **Commercial Shield** → ⋮ (or scroll down) → **Allow restricted settings**, then try again. If your TV has no such option, use the `appops` command from Option A.
+> **"Restricted setting" message on Android 13+?** Android blocks accessibility for apps that didn't come from the Play Store until you allow it. Go to Settings → **Apps** → **Not in Front of the Kids** → ⋮ (or scroll down) → **Allow restricted settings**, then try again. If your TV has no such option, use the `appops` command from Option A.
 
 **2. Pick your shield button**
 
@@ -187,18 +189,18 @@ Tips:
 Some soundbars and receivers connected by HDMI ARC/eARC or optical control their own volume. The TV's mute then doesn't reach them. Use your soundbar remote's mute as well, or set **Cover** to Plain black and turn the volume down. If you work out a fix for your setup, please share it in an issue.
 
 **Pressing the button does nothing.**
-- Open Commercial Shield and check that the service shows **On ✓**. Some TVs turn accessibility services off after an update or when memory runs low.
+- Open Not in Front of the Kids and check that the service shows **On ✓**. Some TVs turn accessibility services off after an update or when memory runs low.
 - Re-pick the button. Some remotes send different codes after re-pairing.
 - If the setup screen never reacts to your button, Android isn't receiving that button; choose another.
 
 **The service keeps turning itself off.**
-Some TVs aggressively close background apps. Open the TV's Settings → Apps → Commercial Shield and make sure it isn't restricted or "optimized" for battery or memory.
+Some TVs aggressively close background apps. Open the TV's Settings → Apps → Not in Front of the Kids and make sure it isn't restricted or "optimized" for battery or memory.
 
 **Other accessibility apps stopped working after I installed it.**
-Something overwrote the enabled-services list. In TV Settings → Accessibility, turn the other app back on. Commercial Shield's `install.sh` never removes other services.
+Something overwrote the enabled-services list. In TV Settings → Accessibility, turn the other app back on. the app's `install.sh` never removes other services.
 
 **I want to change my settings.**
-Open the Commercial Shield app any time.
+Open the Not in Front of the Kids app any time.
 
 ---
 
@@ -206,7 +208,7 @@ Open the Commercial Shield app any time.
 
 You're giving an app an accessibility permission, so here is exactly what it can and can't do:
 
-- **It can't use the internet.** The app doesn't request Android's `INTERNET` permission, so the system won't let it send data anywhere. Check it yourself: TV Settings → Apps → Commercial Shield → Permissions, or `aapt dump permissions commercial-shield.apk`.
+- **It can't use the internet.** The app doesn't request Android's `INTERNET` permission, so the system won't let it send data anywhere. Check it yourself: TV Settings → Apps → Not in Front of the Kids → Permissions, or `aapt dump permissions not-in-front-of-the-kids.apk`.
 - **It can't read your screen.** The service is configured with `canRetrieveWindowContent="false"` and doesn't subscribe to screen events ([`res/xml/shield_service.xml`](res/xml/shield_service.xml)).
 - **It only reacts to one button.** It receives remote key presses (that's what lets it notice your shield button) and immediately passes every other key through untouched. Nothing is logged or stored except your settings.
 - **It doesn't touch your streams.** It never blocks, skips, alters or records anything. It just draws a cover on top and mutes the volume, which is the same as you pressing mute and putting a towel over the TV.
@@ -215,8 +217,8 @@ You're giving an app an accessibility permission, so here is exactly what it can
 **Verifying a download:** release APKs are built by GitHub Actions directly from the tagged source ([workflow](.github/workflows/build.yml)), and each release lists the APK's SHA-256 checksum. Compare it with:
 
 ```bash
-shasum -a 256 commercial-shield.apk     # macOS / Linux
-certutil -hashfile commercial-shield.apk SHA256   # Windows
+shasum -a 256 not-in-front-of-the-kids.apk     # macOS / Linux
+certutil -hashfile not-in-front-of-the-kids.apk SHA256   # Windows
 ```
 
 Every official release is signed with the same key. Its certificate fingerprint is:
@@ -225,16 +227,16 @@ Every official release is signed with the same key. Its certificate fingerprint 
 SHA-256: 5C:76:C1:D3:CD:C0:1D:20:54:62:C7:FD:98:0B:7C:43:96:8B:56:04:2C:2D:57:7B:21:68:2B:99:33:8F:6D:33
 ```
 
-Check a downloaded APK with `apksigner verify --print-certs commercial-shield.apk`. Android also enforces this for you: an update signed with a different key won't install over the real app.
+Check a downloaded APK with `apksigner verify --print-certs not-in-front-of-the-kids.apk`. Android also enforces this for you: an update signed with a different key won't install over the real app.
 
-Only download Commercial Shield from this repository's [Releases page](../../releases). Anything else could be modified.
+Only download Not in Front of the Kids from this repository's [Releases page](../../releases). Anything else could be modified.
 
 ---
 
 ## Uninstall
 
-TV Settings → **Apps** → **Commercial Shield** → **Uninstall**.
-Or: `adb uninstall io.github.stormrdoteth.commercialshield`
+TV Settings → **Apps** → **Not in Front of the Kids** → **Uninstall**.
+Or: `adb uninstall io.github.stormrdoteth.notinfrontofthekids`
 
 This leaves nothing behind.
 
@@ -250,7 +252,7 @@ brew install openjdk@17
 brew install --cask android-commandlinetools
 sdkmanager --sdk_root="$HOME/Library/Android/sdk" "platforms;android-31" "build-tools;34.0.0"
 
-./build.sh                      # → build/commercial-shield.apk (signed with a local debug key)
+./build.sh                      # → build/not-in-front-of-the-kids.apk (signed with a local debug key)
 ./install.sh <tv-ip>            # install on your TV
 ```
 
@@ -272,7 +274,7 @@ build.sh / install.sh        build and install without Gradle
 
 ## How it works
 
-Android lets accessibility services see remote key presses *before* apps do. That's how tools like button remappers work. Commercial Shield's service watches for the one key code you picked:
+Android lets accessibility services see remote key presses *before* apps do. That's how tools like button remappers work. the app's service watches for the one key code you picked:
 
 1. **Key pressed:** it adds a full-screen `TYPE_ACCESSIBILITY_OVERLAY` window. That window type can sit above any app, including video players, without the "display over other apps" permission.
 2. It mutes `STREAM_MUSIC` with `AudioManager`, but only if the sound wasn't already muted.

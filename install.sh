@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# Installs Commercial Shield on a TV over Wi-Fi with adb and turns its
+# Installs Not in Front of the Kids on a TV over Wi-Fi with adb and turns its
 # accessibility service on, keeping any other enabled services (e.g. Projectivy).
 #
-# Usage: ./install.sh <tv-ip> [path/to/commercial-shield.apk]
+# Usage: ./install.sh <tv-ip> [path/to/not-in-front-of-the-kids.apk]
 #
 # Before running: on the TV enable Developer options and USB debugging
 # (see README), then approve the "Allow USB debugging?" prompt on the TV.
@@ -10,9 +10,9 @@ set -euo pipefail
 cd "$(dirname "$0")"
 
 IP=${1:?Usage: ./install.sh <tv-ip> [apk]}
-APK=${2:-build/commercial-shield.apk}
+APK=${2:-build/not-in-front-of-the-kids.apk}
 TV="$IP"; [[ "$TV" == *:* ]] || TV="$IP:5555"
-PKG=io.github.stormrdoteth.commercialshield
+PKG=io.github.stormrdoteth.notinfrontofthekids
 SERVICE=$PKG/.ShieldService
 
 [ -f "$APK" ] || { echo "No APK at $APK. Run ./build.sh or download one from Releases." >&2; exit 1; }
