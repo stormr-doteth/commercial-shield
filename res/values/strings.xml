@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Commercial Shield</string>
+    <string name="service_description">Lets one remote button cover the screen and mute the sound during commercials. Commercial Shield only listens for the button you choose. It cannot read what is on screen and has no internet access.</string>
+</resources>

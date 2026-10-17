@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <path android:fillColor="#1E3A5F" android:pathData="M0,0h108v108h-108z" />
+    <!-- shield -->
+    <path android:fillColor="#F4B942"
+        android:pathData="M54,18 L82,28 L82,52 C82,70 70,83 54,90 C38,83 26,70 26,52 L26,28 Z" />
+    <!-- muted TV inside the shield -->
+    <path android:fillColor="#1E3A5F" android:pathData="M38,42h32v22h-32z" />
+    <path android:strokeColor="#F4B942" android:strokeWidth="3" android:strokeLineCap="round"
+        android:pathData="M44,47 L64,59 M64,47 L44,59" />
+</vector>
