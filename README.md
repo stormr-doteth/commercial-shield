@@ -79,8 +79,8 @@ Then go back one level, open **Developer options**, and turn on **USB debugging*
 ```bash
 git clone https://github.com/stormr-doteth/commercial-shield.git
 cd commercial-shield
-# put commercial-shield.apk from the Releases page into this folder's build/ directory, or build it yourself (see below)
-./install.sh 192.168.1.42
+curl -L -o commercial-shield.apk https://github.com/stormr-doteth/commercial-shield/releases/latest/download/commercial-shield.apk
+./install.sh 192.168.1.42 commercial-shield.apk
 ```
 
 A box will appear on the TV asking **"Allow USB debugging?"** Tick *Always allow from this computer* and choose **Allow**.
@@ -108,9 +108,15 @@ Then turn the service on from the TV, as in [Set it up on the TV](#set-it-up-on-
 2. Allow it to install apps:
    - **Google TV / Android TV:** Settings → **Apps** → **Security & restrictions** → **Unknown sources** → turn on **Downloader**.
    - **Fire TV:** Settings → **My Fire TV** → **Developer options** → **Install unknown apps** → **Downloader** → On. (If you don't see Developer options, see Option A step 1.)
-3. Open Downloader and enter the APK link from the [latest release](../../releases/latest).
-   It's the link to `commercial-shield.apk`.
-4. Choose **Install**, then **Open**.
+3. Open Downloader and type this link:
+
+   ```
+   https://github.com/stormr-doteth/commercial-shield/releases/latest/download/commercial-shield.apk
+   ```
+
+   It always points to the newest version.
+4. Choose **Install**, then **Open**, and continue with [Set it up on the TV](#set-it-up-on-the-tv).
+5. Optional: back in Downloader, delete the downloaded file to free up space.
 
 ---
 
@@ -212,6 +218,14 @@ You're giving an app an accessibility permission, so here is exactly what it can
 shasum -a 256 commercial-shield.apk     # macOS / Linux
 certutil -hashfile commercial-shield.apk SHA256   # Windows
 ```
+
+Every official release is signed with the same key. Its certificate fingerprint is:
+
+```
+SHA-256: 5C:76:C1:D3:CD:C0:1D:20:54:62:C7:FD:98:0B:7C:43:96:8B:56:04:2C:2D:57:7B:21:68:2B:99:33:8F:6D:33
+```
+
+Check a downloaded APK with `apksigner verify --print-certs commercial-shield.apk`. Android also enforces this for you: an update signed with a different key won't install over the real app.
 
 Only download Commercial Shield from this repository's [Releases page](../../releases). Anything else could be modified.
 

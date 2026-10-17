@@ -38,11 +38,13 @@ jobs:
           echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/release.keystore"
           echo "KEYSTORE=$RUNNER_TEMP/release.keystore" >> "$GITHUB_ENV"
 
+      # The release key is only unlocked for version tags; every other build
+      # (pushes, pull requests) is signed with a throwaway debug key.
       - name: Build
         env:
-          KEYSTORE_PASS: ${{ secrets.KEYSTORE_PASS }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASS: ${{ secrets.KEY_PASS }}
+          KEYSTORE_PASS: ${{ startsWith(github.ref, 'refs/tags/v') && secrets.KEYSTORE_PASS || '' }}
+          KEY_ALIAS: ${{ startsWith(github.ref, 'refs/tags/v') && secrets.KEY_ALIAS || '' }}
+          KEY_PASS: ${{ startsWith(github.ref, 'refs/tags/v') && secrets.KEY_PASS || '' }}
         run: ./build.sh
 
       - name: Checksum
@@ -51,7 +53,26 @@ jobs:
           sha256sum commercial-shield.apk > commercial-shield.apk.sha256
           cat commercial-shield.apk.sha256
 
+      - name: Release notes
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          rm -f "$RUNNER_TEMP/release.keystore"
+          SHA=$(cut -d' ' -f1 build/commercial-shield.apk.sha256)
+          CERT=$("$ANDROID_HOME/build-tools/34.0.0/apksigner" verify --print-certs build/commercial-shield.apk | grep -m1 'SHA-256 digest' | awk '{print $NF}')
+          {
+            echo "## Install"
+            echo "Download **commercial-shield.apk** below, or see the [README](https://github.com/${GITHUB_REPOSITORY}#readme) for step-by-step TV instructions."
+            echo
+            echo "## Verify your download"
+            echo "- APK SHA-256: \`$SHA\`"
+            echo "- Signing certificate SHA-256: \`$CERT\`"
+            echo
+            echo "Built by GitHub Actions from commit ${GITHUB_SHA} ([build log](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}))."
+          } > build/notes.md
+          cat build/notes.md
+
       - uses: actions/upload-artifact@v4
+        if: "!startsWith(github.ref, 'refs/tags/v')"
         with:
           name: commercial-shield
           path: |
@@ -65,4 +86,4 @@ jobs:
           files: |
             build/commercial-shield.apk
             build/commercial-shield.apk.sha256
-          generate_release_notes: true
+          body_path: build/notes.md
